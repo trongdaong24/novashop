@@ -1,0 +1,28 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: shopapp
+      POSTGRES_PASSWORD: shopapp
+      POSTGRES_DB: shopapp
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shopapp -d shopapp"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  web:
+    build: .
+    ports:
+      - "5050:5000"
+    environment:
+      DATABASE_URL: postgresql://shopapp:shopapp@db:5432/shopapp
+      SECRET_KEY: novashop-lab-secret-key
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:

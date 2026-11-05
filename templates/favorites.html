@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Favorites — NovaShop{% endblock %}
+{% block content %}
+<h1>Favorites</h1>
+{% if added %}<div class="flash-ok">Added to favorites: {{ added|safe }}</div>{% endif %}
+{% if favorites %}
+<table class="table">
+  <thead>
+    <tr><th>Product</th><th>Category</th><th>Price</th><th>Note</th><th></th></tr>
+  </thead>
+  <tbody>
+    {% for f in favorites %}
+    <tr>
+      <td><a href="{{ url_for('product_page', pid=f['product_id']) }}">{{ f['name'] }}</a></td>
+      <td>{{ f['category'] }}</td>
+      <td>{% if f['price'] is not none %}${{ "%.2f"|format(f['price']) }}{% endif %}</td>
+      <td>{{ f['note'] or '' }}</td>
+      <td class="nowrap">
+        <form class="inline-form" method="post" action="{{ url_for('favorites_note') }}">
+          <input type="hidden" name="product_id" value="{{ f['product_id'] }}">
+          <input type="text" name="note" value="{{ f['note'] }}" placeholder="Add a note...">
+          <button class="btn btn-sm" type="submit">Save note</button>
+        </form>
+        <a class="btn btn-sm btn-outline" href="{{ url_for('favorites_toggle', pid=f['product_id']) }}">Remove</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="empty">You have no favorites yet. Browse the <a href="{{ url_for('shop') }}">shop</a> and tap the heart on a product.</p>
+{% endif %}
+{% endblock %}

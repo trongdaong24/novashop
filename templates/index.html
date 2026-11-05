@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Welcome — NovaShop{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Everyday gear, honestly priced.</h1>
+  <p>Free shipping over $50 &middot; 30-day returns &middot; 1-year warranty on electronics</p>
+  <a class="btn btn-lg" href="{{ url_for('shop') }}">Browse the shop</a>
+</section>
+<h2>Featured products</h2>
+<div class="grid">
+  {% for p in featured %}
+  <a class="card" href="{{ url_for('product_page', pid=p['id']) }}">
+    <span class="tag">{{ p['category'] }}</span>
+    <h3>{{ p['name'] }}</h3>
+    <p class="desc">{{ p['description'] }}</p>
+    <span class="price">{% if p['price'] is not none %}${{ "%.2f"|format(p['price']) }}{% endif %}</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

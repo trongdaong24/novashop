@@ -1,0 +1,18 @@
+NOVASHOP - SIZE CHART (cm)
+==========================
+
+T-Shirts (unisex regular fit)
+Size | Chest | Length
+S    |  96   |  68
+M    | 102   |  70
+L    | 108   |  72
+XL   | 114   |  74
+
+Denim Jacket (classic fit)
+Size | Chest | Sleeve
+S    | 104   |  62
+M    | 110   |  63.5
+L    | 116   |  65
+XL   | 122   |  66.5
+
+If you are between sizes, we recommend going one size up for a relaxed fit.

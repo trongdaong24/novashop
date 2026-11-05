@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}{{ p['name'] }} — NovaShop{% endblock %}
+{% block content %}
+<p class="breadcrumb"><a href="{{ url_for('shop') }}">Shop</a> / {{ p['name'] }}</p>
+<div class="detail">
+  <div class="detail-info">
+    <span class="tag">{{ p['category'] }}</span>
+    <h1>{{ p['name'] }}</h1>
+    <p class="price price-lg">{% if p['price'] is not none %}${{ "%.2f"|format(p['price']) }}{% endif %}</p>
+    <p class="muted">{{ p['stock'] }} in stock</p>
+    <p>{{ p['description'] }}</p>
+    <div class="actions">
+      {% if g.user %}
+        {% if is_favorite %}
+          <a class="btn btn-outline" href="{{ url_for('favorites_toggle', pid=p['id']) }}">&#9829; In favorites &mdash; remove</a>
+        {% else %}
+          <a class="btn btn-outline" href="{{ url_for('favorites_toggle', pid=p['id']) }}">&#9825; Add to favorites</a>
+        {% endif %}
+      {% else %}
+        <a class="btn btn-outline" href="{{ url_for('login', next=request.path) }}">&#9825; Add to favorites</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<section class="reviews">
+  <h2>Reviews ({{ reviews|length }})</h2>
+  {% for r in reviews %}
+  <article class="review">
+    <div class="review-head">
+      <strong>{{ r['username'] }}</strong>
+      <span class="stars">{% for _ in range(r['rating']) %}&#9733;{% endfor %}</span>
+      <span class="muted">{{ r['created_at'].strftime('%d/%m/%Y') }}</span>
+    </div>
+    <p>{{ r['comment']|safe }}</p>
+  </article>
+  {% else %}
+  <p class="muted">No reviews yet. Be the first!</p>
+  {% endfor %}
+
+  {% if g.user %}
+  <h3>Write a review</h3>
+  <form class="form" method="post" action="{{ url_for('post_review', pid=p['id']) }}">
+    <label>Rating
+      <select name="rating">
+        <option value="5">5 stars</option>
+        <option value="4">4 stars</option>
+        <option value="3">3 stars</option>
+        <option value="2">2 stars</option>
+        <option value="1">1 star</option>
+      </select>
+    </label>
+    <label>Your review
+      <textarea name="comment" rows="4" required placeholder="What did you like or dislike?"></textarea>
+    </label>
+    <button class="btn" type="submit">Submit review</button>
+  </form>
+  {% else %}
+  <p class="muted"><a href="{{ url_for('login', next=request.path) }}">Log in</a> to write a review.</p>
+  {% endif %}
+</section>
+{% endblock %}

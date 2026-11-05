@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}NovaShop{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div class="container nav-wrap">
+    <a class="brand" href="{{ url_for('index') }}">Nova<span>Shop</span></a>
+    <nav class="mainnav">
+      <a href="{{ url_for('shop') }}">Shop</a>
+      {% if g.user %}<a href="{{ url_for('favorites_page') }}">Favorites</a>{% endif %}
+      <a href="{{ url_for('downloads') }}">Downloads</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+    </nav>
+    <div class="nav-right">
+      {% if g.user %}
+        <a href="{{ url_for('drafts_list') }}">Drafts</a>
+        <a href="{{ url_for('admin_index') }}">Admin</a>
+        <a href="{{ url_for('profile') }}">{{ g.user['full_name'] or g.user['username'] }}</a>
+        <a class="btn btn-outline" href="{{ url_for('logout') }}">Log out</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Log in</a>
+        <a class="btn" href="{{ url_for('register') }}">Sign up</a>
+      {% endif %}
+    </div>
+  </div>
+</header>
+<main class="container">
+  {% with msgs = get_flashed_messages() %}
+    {% if msgs %}<div class="flash-info">{{ msgs[0] }}</div>{% endif %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer class="footer">
+  <div class="container footer-wrap">
+    <span>NovaShop &mdash; quality gear, fair prices. &copy; 2026</span>
+    <nav class="footnav">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('shop') }}">Shop</a>
+      <a href="{{ url_for('downloads') }}">Downloads</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

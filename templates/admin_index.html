@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Admin — NovaShop{% endblock %}
+{% block content %}
+<nav class="subnav">
+  <a class="active" href="{{ url_for('admin_index') }}">Overview</a>
+  <a href="{{ url_for('admin_users') }}">Users</a>
+  <a href="{{ url_for('admin_inquiries') }}">Inquiries</a>
+</nav>
+<h1>Admin</h1>
+<div class="grid">
+  <a class="card" href="{{ url_for('admin_users') }}">
+    <span class="tag">Management</span>
+    <h3>Users</h3>
+    <p class="desc">View and manage registered customer accounts.</p>
+    <span class="muted">{{ counts['users'] }} accounts</span>
+  </a>
+  <a class="card" href="{{ url_for('admin_inquiries') }}">
+    <span class="tag">Support</span>
+    <h3>Inquiries</h3>
+    <p class="desc">Contact messages and support tickets from customers.</p>
+    <span class="muted">{{ counts['inquiries'] }} inquiries</span>
+  </a>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Edit draft — NovaShop{% endblock %}
+{% block content %}
+<p class="breadcrumb"><a href="{{ url_for('drafts_list') }}">Drafts</a> / Edit</p>
+<h1>Edit draft</h1>
+<form class="form form-narrow" method="post" action="{{ url_for('draft_edit', did=d['id']) }}">
+  <label>Title
+    <input type="text" name="title" value="{{ d['title'] }}" required>
+  </label>
+  <label>Content
+    <textarea name="content" rows="8">{{ d['content'] }}</textarea>
+  </label>
+  <button class="btn" type="submit">Save changes</button>
+  <a class="btn btn-outline" href="{{ url_for('drafts_list') }}">Cancel</a>
+</form>
+{% endblock %}

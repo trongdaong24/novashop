@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Downloads — NovaShop{% endblock %}
+{% block content %}
+<h1>Downloads</h1>
+<p class="muted">Product guides and store policies in plain-text format.</p>
+<ul class="list">
+  {% for name in names %}
+  <li>
+    <a href="{{ url_for('files_download', name=name) }}">{{ name }}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock %}

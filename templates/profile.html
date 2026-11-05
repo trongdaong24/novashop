@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}My profile — NovaShop{% endblock %}
+{% block content %}
+<h1>My profile</h1>
+<div id="flash" class="flash-ok" style="display:none"></div>
+<div class="panel">
+  <table class="kv">
+    <tr><th>Username</th><td>{{ user['username'] }}</td></tr>
+    <tr><th>Full name</th><td>{{ user['full_name'] or '—' }}</td></tr>
+    <tr><th>Email</th><td>{{ user['email'] or '—' }}</td></tr>
+    <tr><th>Bio</th><td>{{ user['bio'] or '—' }}</td></tr>
+  </table>
+</div>
+<h2>Edit profile</h2>
+<form class="form form-narrow" method="post" action="{{ url_for('profile_update') }}">
+  <input type="hidden" name="user_id" value="{{ user['id'] }}">
+  <label>Full name
+    <input type="text" name="full_name" value="{{ user['full_name'] }}">
+  </label>
+  <label>Email
+    <input type="email" name="email" value="{{ user['email'] }}">
+  </label>
+  <label>Bio
+    <textarea name="bio" rows="3">{{ user['bio'] }}</textarea>
+  </label>
+  <button class="btn" type="submit">Save changes</button>
+</form>
+<script>
+(function () {
+  var m = /^#updated=(.*)$/.exec(window.location.hash);
+  if (m) {
+    var box = document.getElementById("flash");
+    box.innerHTML = "Profile updated: <strong>" + decodeURIComponent(m[1]) + "</strong>";
+    box.style.display = "block";
+  }
+})();
+</script>
+{% endblock %}

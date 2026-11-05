@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Message sent — NovaShop{% endblock %}
+{% block content %}
+<h1>Thanks, {{ name }}!</h1>
+<div class="flash-ok">Your message has been received. We usually reply within one business day.</div>
+<p>Your request is tracked as ticket <a href="{{ url_for('support_ticket', tid=ticket_id) }}">#{{ ticket_id }}</a>.</p>
+{% if history %}
+<h2>Recent requests from this email</h2>
+<ul class="list">
+  {% for t in history %}
+  <li>
+    <a href="{{ url_for('support_ticket', tid=t['id']) }}">#{{ t['id'] }}</a>
+    {{ t['subject'] }}
+    <span class="muted">{{ t['created_at'].strftime('%d/%m/%Y %H:%M') if t['created_at'] else '' }}</span>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

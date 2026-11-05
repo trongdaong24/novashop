@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Inquiries — Admin — NovaShop{% endblock %}
+{% block content %}
+<nav class="subnav">
+  <a href="{{ url_for('admin_index') }}">Overview</a>
+  <a href="{{ url_for('admin_users') }}">Users</a>
+  <a class="active" href="{{ url_for('admin_inquiries') }}">Inquiries</a>
+</nav>
+<h1>Inquiries</h1>
+<table class="table">
+  <thead>
+    <tr><th>ID</th><th>From</th><th>Subject</th><th>Status</th><th>Created</th></tr>
+  </thead>
+  <tbody>
+    {% for i in inquiries %}
+    <tr>
+      <td>{{ i['id'] }}</td>
+      <td>{{ i['name'] }} &lt;{{ i['email'] }}&gt;</td>
+      <td><a href="{{ url_for('support_ticket', tid=i['id']) }}">{{ i['subject'] or '(no subject)' }}</a></td>
+      <td>{{ i['status'] }}</td>
+      <td>{{ i['created_at'].strftime('%d/%m/%Y %H:%M') }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

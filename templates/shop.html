@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Shop — NovaShop{% endblock %}
+{% block content %}
+<h1>Shop</h1>
+<form class="search-bar" method="get" action="{{ url_for('shop') }}">
+  <input type="text" name="q" value="{{ q }}" placeholder="Search products..." autofocus>
+  <select name="category">
+    <option value="">All categories</option>
+    {% for c in categories %}
+      <option value="{{ c }}" {% if c == category %}selected{% endif %}>{{ c }}</option>
+    {% endfor %}
+  </select>
+  <button class="btn" type="submit">Search</button>
+</form>
+<p class="muted">{{ products|length }} product{{ '' if products|length == 1 else 's' }} found</p>
+{% if products %}
+<div class="grid">
+  {% for p in products %}
+  <a class="card" href="{{ url_for('product_page', pid=p['id']) }}">
+    <span class="tag">{{ p['category'] }}</span>
+    <h3>{{ p['name'] }}</h3>
+    <p class="desc">{{ p['description'] }}</p>
+    <span class="price">{% if p['price'] is not none %}${{ "%.2f"|format(p['price']) }}{% endif %}</span>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<p class="empty">No products match your search.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Drafts — NovaShop{% endblock %}
+{% block content %}
+<h1>Drafts</h1>
+<p class="muted">Notes and unfinished reviews you saved for later.</p>
+{% if drafts %}
+<div class="draft-list">
+  {% for d in drafts %}
+  <div class="panel draft">
+    <div class="draft-head">
+      <strong>{{ d['title'] or 'Untitled' }}</strong>
+      <span class="muted">{{ d['updated_at'].strftime('%d/%m/%Y %H:%M') }}</span>
+    </div>
+    <p class="desc">{{ d['content'] }}</p>
+    <a class="btn btn-sm btn-outline" href="{{ url_for('draft_edit', did=d['id']) }}">Edit</a>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="empty">No drafts yet.</p>
+{% endif %}
+<h2>New draft</h2>
+<form class="form form-narrow" method="post" action="{{ url_for('drafts_new') }}">
+  <label>Title
+    <input type="text" name="title" required>
+  </label>
+  <label>Content
+    <textarea name="content" rows="5"></textarea>
+  </label>
+  <button class="btn" type="submit">Save draft</button>
+</form>
+{% endblock %}

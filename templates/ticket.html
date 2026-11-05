@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Ticket #{{ t['id'] }} — NovaShop{% endblock %}
+{% block content %}
+<p class="breadcrumb"><a href="{{ url_for('contact') }}">Contact</a> / Ticket #{{ t['id'] }}</p>
+<div class="panel">
+  <h1>{{ t['subject'] or '(no subject)' }}</h1>
+  <table class="kv">
+    <tr><th>Ticket</th><td>#{{ t['id'] }}</td></tr>
+    <tr><th>From</th><td>{{ t['name'] }} &lt;{{ t['email'] }}&gt;</td></tr>
+    <tr><th>Created</th><td>{{ t['created_at'].strftime('%d/%m/%Y %H:%M') }}</td></tr>
+    <tr><th>Status</th><td>{{ t['status'] }}</td></tr>
+  </table>
+  <p class="message">{{ t['message'] }}</p>
+</div>
+{% endblock %}
